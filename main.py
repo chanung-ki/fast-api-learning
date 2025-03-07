@@ -3,9 +3,17 @@ import time
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.future import select
+from sqlalchemy.orm import Session
+
+from database import Base, engine
 from api.v1.user import user_router
 
 app = FastAPI()
+
 
 origins = [
     "http://localhost:8000",
@@ -18,6 +26,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+### 테이블 생성
+Base.metadata.create_all(bind=engine)
 
 ### routing
 app.include_router(user_router.router) # 유저

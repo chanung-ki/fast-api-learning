@@ -17,4 +17,6 @@ class User(BaseModel):
     birth: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        # orm_mode = True
+        # 버전 이슈로 일단 이렇게 설정
+        from_attributes = True
